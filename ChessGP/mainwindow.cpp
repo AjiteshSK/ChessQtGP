@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	cv->setPiece('B', QIcon("D:\\VS projects\\ChessGP\\resources\\BishopW.svg"));
 	cv->setPiece('N', QIcon("D:\\VS projects\\ChessGP\\resources\\KnightW.svg"));
 	cv->setPiece('P', QIcon("D:\\VS projects\\ChessGP\\resources\\PawnW.svg"));
+
+
 	ca = new standardChess;
 	dialog = new ConfigurationBox;
 	ca->newGame();//This call creates a new board
@@ -35,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
 	connect(dialog, &ConfigurationBox::OkClicked, this, &MainWindow::newGame);
 	connect(dialog, &ConfigurationBox::ExitGame, this, &QMainWindow::close);
+
 	cv->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	cv->setFieldSize(QSize(50, 50));
 	

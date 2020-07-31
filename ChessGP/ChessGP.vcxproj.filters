@@ -53,6 +53,9 @@
     <ClCompile Include="ConfigurationBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="NewGamePromptDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="ChessBoard.h">
@@ -65,6 +68,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="ConfigurationBox.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="NewGamePromptDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

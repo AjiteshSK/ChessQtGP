@@ -42,6 +42,7 @@ private:
 	ChessBoard* m_board;
 	Result m_result;
 	Player m_currentPlayer;
+	QString player1, player2;
 	//bool isblackCheck = false, isWhiteCheck = false;
 };
 
