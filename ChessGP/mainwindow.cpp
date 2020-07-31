@@ -57,6 +57,9 @@ void MainWindow::viewClicked(const QPoint &field) { //slot that is connected to 
 	LET'S NOT DELETE THIS AND LET IT REMAIN AS A REMNINDER OF YOUR IMBECILITY 
 	*/
 
+	if (field.y() == 0) {
+		return;
+	}
 
 	if (m_clickPoint.isNull()) {//Checks is this is the first click, i.e, we haven't selected a piece already
 		if (cv->board()->data(field.x(), field.y()) != ' ') {
