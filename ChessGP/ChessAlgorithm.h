@@ -22,6 +22,9 @@ public:
 	inline Player currentPlayer() const {
 		return m_currentPlayer;
 	}
+	void setPlayerNames(QString p1, QString p2);
+	QString player1Name();
+	QString player2Name();
 public slots:
 	void newGame();
 	virtual bool move(int colFrom, int rankFrom, int colTo, int rankTo);//It is supposed to be re-implemented by derived classes
@@ -31,6 +34,7 @@ signals:
 	void boardChanged(ChessBoard* board);
 	void gameOver(Result);
 	void currentPlayerChanged(Player);
+	void closeApp();
 protected:
 	virtual void setupBoard(); //Sets up the board, allocates it by calling setBoard and passing a newly created board on the stack as its argument
 	void setBoard(ChessBoard* board); //Setter for m_board

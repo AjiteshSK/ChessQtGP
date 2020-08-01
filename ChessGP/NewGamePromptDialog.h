@@ -9,9 +9,10 @@ class NewGamePromptDialog :public QDialog{
 
 public:
 	NewGamePromptDialog();
-signals:
-	void startGame(QString p1, QString p2);
-	void cancelClicked();
+	QString player1Name() const;
+	QString player2Name() const;
+	void setPLayer1Name(QString name);
+	void setPLayer2Name(QString name);
 private:
 	QLabel* player1;
 	QLabel* player2;
@@ -19,5 +20,8 @@ private:
 	QLineEdit* player2_edit;
 	QPushButton* startGame;
 	QPushButton* cancel;
+
+	QString player1name;
+	QString player2name;
 };
 

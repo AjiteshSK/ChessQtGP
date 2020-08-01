@@ -1,4 +1,5 @@
 #include "ChessAlgorithm.h"
+#include "NewGamePromptDialog.h"
 
 ChessAlgorithm::ChessAlgorithm(QObject* parent) {
 	m_board = nullptr;
@@ -6,7 +7,6 @@ ChessAlgorithm::ChessAlgorithm(QObject* parent) {
 	m_currentPlayer = Player1;
 
 	//connect(this, &ChessAlgorithm::gameOver, this, &ChessAlgorithm::endGame);
-	
 }
 
 void ChessAlgorithm::setBoard(ChessBoard *board)
@@ -46,6 +46,21 @@ ChessBoard * ChessAlgorithm::board() const
 	return m_board;
 }
 
+void ChessAlgorithm::setPlayerNames(QString p1, QString p2){
+	player1 = p1;
+	player2 = p2;
+}
+
+QString ChessAlgorithm::player1Name()
+{
+	return player1;
+}
+
+QString ChessAlgorithm::player2Name()
+{
+	return player2;
+}
+
 bool ChessAlgorithm::move(int colFrom, int rankFrom, int colTo, int rankTo)
 {
 	Q_UNUSED(colFrom)
@@ -66,6 +81,22 @@ void ChessAlgorithm::setupBoard() {
 }
 
 void ChessAlgorithm::newGame() {//What happens here is, we construct a new board, but it's not the one linked to ChessView and consequently MainWindow. This function is only useful for the first time a game is ran
+	NewGamePromptDialog dialog;
+	
+	if (dialog.exec() == QDialog::Accepted) {
+
+		setPlayerNames(dialog.player1Name(), dialog.player2Name());
+		setupBoard();//Sets up an empty board
+		m_currentPlayer = Player::Player1;
+		m_result = Result::NoResult;
+		board()->setFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"); //Fills it with FEN-data
+	}
+	else {
+		emit gameOver(ChessAlgorithm::Result::NoResult);
+		emit closeApp();
+	}
+
+
 	setupBoard();//Sets up an empty board
 	board()->setFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"); //Fills it with FEN-data
 }

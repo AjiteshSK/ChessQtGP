@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include<QLayout>
 #include<iostream>
+#include"NewGamePromptDialog.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	ui.setupUi(this);
@@ -37,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
 	connect(dialog, &ConfigurationBox::OkClicked, this, &MainWindow::newGame);
 	connect(dialog, &ConfigurationBox::ExitGame, this, &QMainWindow::close);
-
+	connect(ca, &ChessAlgorithm::closeApp, this, &QMainWindow::close);
 	cv->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	cv->setFieldSize(QSize(50, 50));
 	
@@ -85,9 +86,13 @@ void MainWindow::viewClicked(const QPoint &field) { //slot that is connected to 
 }
 
 void MainWindow::newGame(){
-	ca->newGame();
-	cv->setBoard(ca->board());
-	cv->update();
+
+	
+		//ca->setPlayerNames(dialog.player1Name(), dialog.player2Name());
+		ca->newGame();
+		cv->setBoard(ca->board());
+		cv->update();
+	
 	//cv->board()->setFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 }
 
@@ -107,10 +112,12 @@ void MainWindow::isOver(ChessAlgorithm::Result result) {
 	
 
 	if (result == ChessAlgorithm::Result::Payer1Wins) {
-		dialog->setWinner("White won!");
+		QString winner = ca->player1Name();
+		dialog->setWinner(winner + " won!");
 	}
 	else if (result == ChessAlgorithm::Result::Player2Wins) {
-		dialog->setWinner("Black Won!");
+		QString winner = ca->player2Name();
+		dialog->setWinner(winner + " Won!");
 	}
 	else {
 		dialog->setWinner("No winners. It's a draw");
