@@ -36,6 +36,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	connect(cv, &ChessView::clicked, this, &MainWindow::viewClicked);
 	connect(ca, &ChessAlgorithm::gameOver, this, &MainWindow::isOver);
 
+	connect(dialog, &ConfigurationBox::rematch, this, &MainWindow::ReMatch);
+
 	connect(dialog, &ConfigurationBox::OkClicked, this, &MainWindow::newGame);
 	connect(dialog, &ConfigurationBox::ExitGame, this, &QMainWindow::close);
 	connect(ca, &ChessAlgorithm::closeApp, this, &QMainWindow::close);
@@ -94,6 +96,11 @@ void MainWindow::newGame(){
 		cv->update();
 	
 	//cv->board()->setFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+}
+
+void MainWindow::ReMatch(){
+	cv->board()->setFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+	cv->update();
 }
 
 void MainWindow::createActions(){

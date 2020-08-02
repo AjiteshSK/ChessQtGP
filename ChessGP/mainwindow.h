@@ -32,4 +32,5 @@ public slots:
 	void viewClicked(const QPoint& field);
 	void isOver(ChessAlgorithm::Result result);
 	void newGame();
+	void ReMatch();
 };
