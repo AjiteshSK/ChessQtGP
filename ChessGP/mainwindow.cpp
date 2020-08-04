@@ -110,6 +110,7 @@ void MainWindow::createActions(){
 
 }
 
+
 void MainWindow::creatMenu(){
 	fileMenu = menuBar()->addMenu(tr("&File"));
 	fileMenu->addAction(newAct);
