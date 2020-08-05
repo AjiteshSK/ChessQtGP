@@ -24,17 +24,18 @@ NewGamePromptDialog::NewGamePromptDialog() {
 	setLayout(grid);
 
 	connect(startGame, &QAbstractButton::clicked, this, &NewGamePromptDialog::accept);
+	connect(startGame, &QAbstractButton::clicked, this, &NewGamePromptDialog::playerNamesChanged);
 	connect(player1_edit, &QLineEdit::textChanged, this, &NewGamePromptDialog::setPLayer1Name);
 	connect(player2_edit, &QLineEdit::textChanged, this, &NewGamePromptDialog::setPLayer2Name);
 	connect(cancel, &QAbstractButton::clicked, this, &NewGamePromptDialog::reject);
 }
 
 QString NewGamePromptDialog::player1Name() const {
-	return player1_edit->text();
+	return player1name;
 }
 
 QString NewGamePromptDialog::player2Name() const {
-	return player2_edit->text();
+	return player2name;
 }
 
 void NewGamePromptDialog::setPLayer1Name(QString name){

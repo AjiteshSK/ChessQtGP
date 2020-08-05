@@ -35,6 +35,7 @@ signals:
 	void gameOver(Result);
 	void currentPlayerChanged(Player);
 	void closeApp();
+	void playerNameset(QString player1, QString player2);
 protected:
 	virtual void setupBoard(); //Sets up the board, allocates it by calling setBoard and passing a newly created board on the stack as its argument
 	void setBoard(ChessBoard* board); //Setter for m_board
@@ -49,8 +50,6 @@ private:
 	QString player1, player2;
 	//bool isblackCheck = false, isWhiteCheck = false;
 };
-
-//Design Decision folks. To implement the full algorithm here or nay? Yay apparently.
 
 class standardChess : public ChessAlgorithm {
 	Q_OBJECT

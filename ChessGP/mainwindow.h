@@ -6,6 +6,7 @@
 #include"ChessAlgorithm.h"
 #include "ConfigurationBox.h"
 #include <QAction>
+#include "GameInfo.h"
 
 class MainWindow : public QMainWindow
 {
@@ -17,6 +18,7 @@ public:
 private:
     Ui::MainWindowClass ui;
 	ChessView* cv;
+	GameInfo* gi;
 	ChessAlgorithm* ca;
 	QPoint m_clickPoint;
 	ChessView::fieldHighlight* m_selectedField;

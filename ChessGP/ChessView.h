@@ -15,7 +15,7 @@ class ChessView :public QWidget{
 public:
 	void setBoard(ChessBoard* board);
 	ChessBoard *board() const;
-	QSize sizeHint() const;
+	QSize sizeHint() const override;
 	void setFieldSize(QSize arg);
 	void setPiece(char type, const QIcon& icon);//Maps a char to  QIcon in the QMap<char,QIcon> m_pieces map
 	QIcon piece(char type) const;

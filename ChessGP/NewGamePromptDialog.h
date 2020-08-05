@@ -13,6 +13,8 @@ public:
 	QString player2Name() const;
 	void setPLayer1Name(QString name);
 	void setPLayer2Name(QString name);
+signals:
+	void playerNamesChanged();
 private:
 	QLabel* player1;
 	QLabel* player2;

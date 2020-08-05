@@ -7,7 +7,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	ui.setupUi(this);
 	m_selectedField = nullptr;
 	
+	QWidget* centralWidget = new QWidget;
+	QHBoxLayout* hbox = new QHBoxLayout;
 	cv = new ChessView;
+	gi = new GameInfo;
 	cv->setPiece('k', QIcon("D:\\VS projects\\ChessGP\\resources\\king.svg"));//black king
 	cv->setPiece('b', QIcon("D:\\VS projects\\ChessGP\\resources\\rook.svg"));
 	cv->setPiece('r', QIcon("D:\\VS projects\\ChessGP\\resources\\castle.svg"));
@@ -25,11 +28,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
 	ca = new standardChess;
 	dialog = new ConfigurationBox;
+	connect(ca, &ChessAlgorithm::playerNameset, gi, &GameInfo::setPlayerNames);
 	ca->newGame();//This call creates a new board
 	cv->setBoard(ca->board());//Now, both ca and cv have pointers to the same board. CA alters its state, cv alters its view
-	setCentralWidget(cv);
+	
+	setCentralWidget(centralWidget);
 
-
+	hbox->addWidget(cv, 1, Qt::AlignLeft);
+	hbox->addWidget(gi, 1, Qt::AlignRight);
 	createActions();
 	creatMenu();
 
@@ -39,15 +45,20 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	connect(dialog, &ConfigurationBox::rematch, this, &MainWindow::ReMatch);
 
 	connect(dialog, &ConfigurationBox::OkClicked, this, &MainWindow::newGame);
+
 	connect(dialog, &ConfigurationBox::ExitGame, this, &QMainWindow::close);
 	connect(ca, &ChessAlgorithm::closeApp, this, &QMainWindow::close);
-	cv->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-	cv->setFieldSize(QSize(50, 50));
 	
+	
+
+	cv->setFieldSize(QSize(50, 50));
+	cv->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	gi->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	centralWidget->setLayout(hbox);
 	layout()->setSizeConstraint(QLayout::SetFixedSize);
 }
 
-void MainWindow::viewClicked(const QPoint &field) { //slot that is connected to clicked signal emitted from withint the mouseReleaseEvent. The argument field contains the column and rank info derived from the mouseReleas event
+void MainWindow::viewClicked(const QPoint &field) { //slot that is connected to clicked signal emitted from withint the mouseReleaseEvent. The argument field contains the column and rank info derived from the mouseRelease event
 	
 	/*
 	if (m_clickPoint.isNull()) {//First mouseReleaseEvent(click), where the piece to be moved is selected

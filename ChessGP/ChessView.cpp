@@ -26,7 +26,7 @@ QSize ChessView::sizeHint() const
 	if (!m_board) {
 		return QSize(100, 100); //Default size
 	}
-	QSize boardSize = QSize(fieldSize().width()* m_board->columns() + 1, m_fieldSize.height() * m_board->ranks() + 1); //width of one box * number of columns, height of one box * number of ranks
+	QSize boardSize = QSize(fieldSize().width()* m_board->columns() + 1, fieldSize().height() * m_board->ranks() + 1); //width of one box * number of columns, height of one box * number of ranks
 	// 'M' is the widest letter
 	int rankSize = fontMetrics().width('M') + 4;
 	int columnSize = fontMetrics().height() + 4;

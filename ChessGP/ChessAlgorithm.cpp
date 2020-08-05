@@ -49,6 +49,8 @@ ChessBoard * ChessAlgorithm::board() const
 void ChessAlgorithm::setPlayerNames(QString p1, QString p2){
 	player1 = p1;
 	player2 = p2;
+
+	emit playerNameset(player1, player2);
 }
 
 QString ChessAlgorithm::player1Name()
@@ -97,8 +99,8 @@ void ChessAlgorithm::newGame() {//What happens here is, we construct a new board
 	}
 
 
-	setupBoard();//Sets up an empty board
-	board()->setFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"); //Fills it with FEN-data
+	//setupBoard();//Sets up an empty board
+	//board()->setFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"); //Fills it with FEN-data
 }
 
 
