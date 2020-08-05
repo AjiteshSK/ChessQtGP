@@ -2,7 +2,6 @@
 #include <qobject.h>
 #include"ChessBoard.h"
 
-
 class ChessAlgorithm :public QObject{ //Essnetially become a base algorithm which can be used to implement a number of chess-based games
 	Q_OBJECT
 	Q_PROPERTY(Result result READ result)

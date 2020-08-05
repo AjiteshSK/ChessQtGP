@@ -653,20 +653,20 @@ std::vector<std::pair<int, int>> standardChess::kingPos(char piece, int curr_col
 			else {
 				if (isupper(piece)) {
 					if (isupper(board()->data(i, j))) {
-						break;
+						continue;
 					}
 					else {
 						king_pos.push_back(std::pair<int, int>(i, j));
-						break;
+						continue;
 					}
 				}
 				else {
 					if (islower(board()->data(i, j))) {
 						king_pos.push_back(std::pair<int, int>(i, j));
-						break;
+						continue;
 					}
 					else {//redundant?
-						break;
+						continue;
 					}
 				}
 			}
@@ -682,14 +682,14 @@ std::vector<std::pair<int, int>> standardChess::kingPos(char piece, int curr_col
 				if (isupper(piece)) {
 					if (islower(board()->data(i, j))) {
 						king_pos.push_back(std::pair<int, int>(i, j));
-						break;
+						continue;
 					}
 					
 				}
 				else {
 					if (isupper(board()->data(i, j))) {
 						king_pos.push_back(std::pair<int, int>(i, j));
-						break;
+						continue;
 					}
 					
 				}
@@ -954,7 +954,7 @@ bool standardChess::isCheck() {//Diff versions for colors?
 bool standardChess::isCheck(char source, int colFrom, int rankFrom, int colTo, int rankTo) {
 	char pseudo_piece = board()->data(colTo, rankTo);
 	board()->movePiece(colFrom, rankFrom, colTo, rankTo);
-	//A way around this is move and undo the move on the same board
+	
 	if (isupper(source)) {
 		//test->movePiece(colFrom, rankFrom, colTo, rankTo);
 		//This has to be changed to 
@@ -1166,7 +1166,7 @@ bool standardChess::isCheck(char source, int colFrom, int rankFrom, int colTo, i
 					all_possible_positions.insert(all_possible_positions.end(), knight_l.begin(), knight_l.end());
 					if (all_possible_positions.size() >= 1) {
 						for (auto x : all_possible_positions) {
-							if (board()->data(x.first, x.second) == 'K') {
+							if (board()->data(x.first, x.second) == 'k') {
 								board()->movePiece(colTo, rankTo, colFrom, rankFrom);
 								board()->setData(colTo, rankTo, pseudo_piece);
 								return true;

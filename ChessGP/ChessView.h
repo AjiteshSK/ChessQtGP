@@ -67,8 +67,8 @@ protected:
 	void paintEvent(QPaintEvent* event);
 	QSize fieldSize() const;
 	void mouseReleaseEvent(QMouseEvent * event) override;
-	QRect fieldRect(int column, int rank) const;			//Converts column and rank co-ordinates to an area on the board
-	QPoint fieldAt(const QPoint& pt) const;					//Converts a clicked point to the column and rank co-ordinates (stores them in a QPoint class)
+	QRect fieldRect(int column, int rank) const;			 //Converts column and rank co-ordinates to an area on the board
+	QPoint fieldAt(const QPoint& pt) const;					 //Converts a clicked point to the column and rank co-ordinates (stores them in a QPoint class)
 	void drawRank(QPainter* painter, int rank);				 //painteEvent() helper methods
 	void drawColumn(QPainter* painter, int column);			 //painteEvent() helper methods
 	void drawField(QPainter* painter, int column, int rank); //painteEvent() helper methods
