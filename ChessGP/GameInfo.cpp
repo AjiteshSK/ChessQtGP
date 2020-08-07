@@ -8,8 +8,8 @@ GameInfo::GameInfo() {
 
 	QVBoxLayout* layout = new QVBoxLayout(this);
 
-	layout->addWidget(player1Name, 0, Qt::AlignTop);
-	layout->addWidget(player2Name, 1, Qt::AlignBottom);
+	layout->addWidget(player1Name, 0, Qt::AlignCenter);
+	layout->addWidget(player2Name, 1, Qt::AlignCenter);
 
 	setLayout(layout);
 
