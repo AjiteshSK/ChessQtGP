@@ -49,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	connect(dialog, &ConfigurationBox::ExitGame, this, &QMainWindow::close);
 	connect(ca, &ChessAlgorithm::closeApp, this, &QMainWindow::close);
 	
-	
+	connect(ca, &ChessAlgorithm::playerKilled, gi, &GameInfo::addDeadPiece);
 
 	cv->setFieldSize(QSize(50, 50));
 	cv->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);

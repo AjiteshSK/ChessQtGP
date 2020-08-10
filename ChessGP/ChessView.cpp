@@ -98,8 +98,7 @@ void ChessView::setPiece(char type, const QIcon & icon){
 	update();
 }
 
-QIcon ChessView::piece(char type) const
-{
+QIcon ChessView::piece(char type) const{
 	return m_pieces.value(type, QIcon());
 }
 

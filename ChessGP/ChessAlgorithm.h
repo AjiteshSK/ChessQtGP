@@ -35,6 +35,7 @@ signals:
 	void currentPlayerChanged(Player);
 	void closeApp();
 	void playerNameset(QString player1, QString player2);
+	void playerKilled(char ch);
 protected:
 	virtual void setupBoard(); //Sets up the board, allocates it by calling setBoard and passing a newly created board on the stack as its argument
 	void setBoard(ChessBoard* board); //Setter for m_board

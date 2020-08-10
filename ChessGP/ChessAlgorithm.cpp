@@ -130,6 +130,9 @@ bool standardChess::move(int colFrom, int rankFrom, int colTo, int rankTo)
 	}
 
 	//Move the piece
+	if (board()->data(colTo, rankTo) != ' ') {
+		emit playerKilled(board()->data(colTo, rankTo));
+	}
 	board()->movePiece(colFrom, rankFrom, colTo, rankTo);
 	
 	//ISPIECEMOVABLE IS MY SALVATION!!! Costly though. The solution is, to check ALL the remaining same colored pieces and check isPieceMovable() for all the fields on the board. If all the pieces have nowhere to go, then it is checkmate, because it implies no way out of the check
