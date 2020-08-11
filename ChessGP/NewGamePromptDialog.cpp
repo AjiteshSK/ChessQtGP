@@ -8,8 +8,11 @@ NewGamePromptDialog::NewGamePromptDialog() {
 	player1 = new QLabel(tr("White player name"));
 	player2 = new QLabel(tr("Black player name"));
 
-	player1_edit = new QLineEdit(tr("Enter player name"));
-	player2_edit = new QLineEdit(tr("Enter player name"));
+	player1_edit = new QLineEdit;
+	player2_edit = new QLineEdit;
+
+	player1_edit->setPlaceholderText(tr("Enter player name"));
+	player2_edit->setPlaceholderText(tr("Enter player name"));
 
 	startGame = new QPushButton(tr("Start Game"));
 	cancel = new QPushButton(tr("Cancel"));

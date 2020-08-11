@@ -664,7 +664,7 @@ std::vector<std::pair<int, int>> standardChess::kingPos(char piece, int curr_col
 					}
 				}
 				else {
-					if (islower(board()->data(i, j))) {
+					if (isupper(board()->data(i, j))) {
 						king_pos.push_back(std::pair<int, int>(i, j));
 						continue;
 					}

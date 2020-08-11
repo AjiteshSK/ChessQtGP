@@ -13,8 +13,11 @@ GameInfo::GameInfo() {
 	QVBoxLayout* black_layout = new QVBoxLayout;
 	db = new dead_black;
 	dw = new dead_white;
+	db->setStyleSheet("background-color: blue");
 	db->populatePieces();
 	dw->populatePieces();
+
+	
 	QVBoxLayout* layout = new QVBoxLayout(this);
 
 	white_layout->addWidget(player1Name, 0, Qt::AlignCenter);
@@ -32,9 +35,18 @@ GameInfo::GameInfo() {
 }
 
 void GameInfo::setPlayerNames(QString p1, QString p2) {
-	player1Name->setText(p1);
-	player2Name->setText(p2);
-
+	if(p1.isEmpty()){
+		player1Name->setText(tr("White King"));
+	}
+	else {
+		player1Name->setText(p1);
+	}
+	if (p2.isEmpty()) {
+		player2Name->setText(tr("Black King"));
+	}
+	else {
+		player2Name->setText(p2);
+	}
 	update();
 }
 
@@ -81,27 +93,30 @@ void dead_black::populatePieces(){
 	pieces.insert('p', QIcon("D:\\VS projects\\ChessGP\\resources\\pawn.svg"));
 	pieces.insert('q', QIcon("D:\\VS projects\\ChessGP\\resources\\queen.svg"));
 
-	pieces.insert('K', QIcon("D:\\VS projects\\ChessGP\\resources\\KingW.svg"));
-	pieces.insert('Q', QIcon("D:\\VS projects\\ChessGP\\resources\\QueenW.svg"));
-	pieces.insert('R', QIcon("D:\\VS projects\\ChessGP\\resources\\CastleW.svg"));
-	pieces.insert('B', QIcon("D:\\VS projects\\ChessGP\\resources\\BishopW.svg"));
-	pieces.insert('N', QIcon("D:\\VS projects\\ChessGP\\resources\\KnightW.svg"));
-	pieces.insert('P', QIcon("D:\\VS projects\\ChessGP\\resources\\PawnW.svg"));
 }
 
 QSize dead_black::minimumSizeHint() const{
-	return QSize(fontMetrics().width('M')*34,50);
+	return QSize(fontMetrics().width('M')*34,160);
 }
 
 void dead_black::paintEvent(QPaintEvent * event){
 	QPainter* painter = new QPainter(this);
-	QRect rect;
-	rect.setTopLeft(QPoint(0,0));
-	rect.setWidth(fontMetrics().width('M') * 2);
-	rect.setHeight(fontMetrics().width('M') * 2);
-	for (auto x : dead_pieces) {
-		if (x != ' ') {
-			pieces[x].paint(painter, rect, Qt::AlignCenter);
+	
+	for (int i = 0; i < dead_pieces.size();i++) {
+		if (dead_pieces[i] != ' ') {
+			QRect rect;
+			if (i < 5) {
+				rect.setTopLeft(QPoint(i*fontMetrics().width('M') * 6, 0));
+			}
+			else if(i>=5 && i<12) {
+				rect.setTopLeft(QPoint((i-5)*fontMetrics().width('M') * 6, 50));
+			}
+			else {
+				rect.setTopLeft(QPoint((i - 5)*fontMetrics().width('M') * 6, 100));
+			}
+			rect.setWidth(fontMetrics().width('M') * 4);
+			rect.setHeight(fontMetrics().width('M') * 4);
+			pieces[dead_pieces[i]].paint(painter, rect, Qt::AlignCenter);
 		}
 	}
 }
@@ -112,13 +127,7 @@ void dead_white::addDeadPiece(char q){
 }
 
 void dead_white::populatePieces(){
-	pieces.insert('k', QIcon("D:\\VS projects\\ChessGP\\resources\\king.svg"));
-	pieces.insert('b', QIcon("D:\\VS projects\\ChessGP\\resources\\rook.svg"));
-	pieces.insert('r', QIcon("D:\\VS projects\\ChessGP\\resources\\castle.svg"));
-	pieces.insert('n', QIcon("D:\\VS projects\\ChessGP\\resources\\knight.svg"));
-	pieces.insert('p', QIcon("D:\\VS projects\\ChessGP\\resources\\pawn.svg"));
-	pieces.insert('q', QIcon("D:\\VS projects\\ChessGP\\resources\\queen.svg"));
-
+	
 	pieces.insert('K', QIcon("D:\\VS projects\\ChessGP\\resources\\KingW.svg"));
 	pieces.insert('Q', QIcon("D:\\VS projects\\ChessGP\\resources\\QueenW.svg"));
 	pieces.insert('R', QIcon("D:\\VS projects\\ChessGP\\resources\\CastleW.svg"));
@@ -127,20 +136,28 @@ void dead_white::populatePieces(){
 	pieces.insert('P', QIcon("D:\\VS projects\\ChessGP\\resources\\PawnW.svg"));
 }
 
-QSize dead_white::minimumSizeHint() const
-{
-	return QSize(fontMetrics().width('M') * 34, 50);
+QSize dead_white::minimumSizeHint() const{
+	return QSize(fontMetrics().width('M') * 34, 160);
 }
 
 void dead_white::paintEvent(QPaintEvent * event){
 	QPainter* painter = new QPainter(this);
-	QRect rect;
-	rect.setTopLeft(QPoint(0, 0));
-	rect.setWidth(fontMetrics().width('M') * 2);
-	rect.setHeight(fontMetrics().width('M') * 2);
-	for (auto x : dead_pieces) {
-		if (x != ' ') {
-			pieces[x].paint(painter, rect, Qt::AlignCenter);
+	
+		for (int i = 0; i < dead_pieces.size();i++) {
+		if (dead_pieces[i] != ' ') {
+			QRect rect;
+			if (i < 5) {
+				rect.setTopLeft(QPoint(i*fontMetrics().width('M') * 6, 0));
+			}
+			else if(i>=5 && i < 12){
+				rect.setTopLeft(QPoint((i-5)*fontMetrics().width('M') * 6, 50));
+			}
+			else {
+				rect.setTopLeft(QPoint((i - 5)*fontMetrics().width('M') * 6, 100));
+			}
+			rect.setWidth(fontMetrics().width('M') * 4);
+			rect.setHeight(fontMetrics().width('M') * 4);
+			pieces[dead_pieces[i]].paint(painter, rect, Qt::AlignCenter);
 		}
 	}
 }

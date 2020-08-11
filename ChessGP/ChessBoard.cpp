@@ -17,7 +17,12 @@ int ChessBoard::columns() const{
 }
 
 char ChessBoard::data(int column, int rank) const{
-	
+	if (rank == 0) {
+		rank = 1;
+	}
+	if (column == 0) {
+		column = 1;
+	}
 	int index = (rank - 1) * columns() + (column - 1);
 	return m_boardData.at(index);
 }
@@ -60,6 +65,12 @@ void ChessBoard::setColumns(int newColumns){
 }
 
 bool ChessBoard::setDataInternal(int column, int rank, char value){
+	if (rank == 0) {
+		rank = 1;
+	}
+	if (column == 0) {
+		column = 1;
+	}
 	int index = (rank - 1)*columns() + (column - 1);
 	if (m_boardData.at(index) == value) {
 		return false;
