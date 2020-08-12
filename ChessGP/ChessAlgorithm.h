@@ -24,6 +24,7 @@ public:
 	void setPlayerNames(QString p1, QString p2);
 	QString player1Name();
 	QString player2Name();
+	void setCurrentPlayer(Player value);
 public slots:
 	void newGame();
 	virtual bool move(int colFrom, int rankFrom, int colTo, int rankTo);//It is supposed to be re-implemented by derived classes
@@ -40,7 +41,7 @@ protected:
 	virtual void setupBoard(); //Sets up the board, allocates it by calling setBoard and passing a newly created board on the stack as its argument
 	void setBoard(ChessBoard* board); //Setter for m_board
 	void setResult(Result value);
-	void setCurrentPlayer(Player value);
+	
 	//void toggleBlackCheck();
 	//void toggleWhiteCheck();
 private:

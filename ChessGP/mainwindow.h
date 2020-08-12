@@ -28,6 +28,7 @@ private:
 	QAction* openAct;
 	QAction* exitAct;
 	QAction* saveAct;
+	QAction* reAct;
 	void createActions();
 	void creatMenu();
 public slots:

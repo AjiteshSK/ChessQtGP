@@ -13,7 +13,7 @@ GameInfo::GameInfo() {
 	QVBoxLayout* black_layout = new QVBoxLayout;
 	db = new dead_black;
 	dw = new dead_white;
-	db->setStyleSheet("background-color: blue");
+	
 	db->populatePieces();
 	dw->populatePieces();
 
@@ -64,6 +64,13 @@ void GameInfo::addDeadPiece(char q){
 	}
 }
 
+void GameInfo::reSet(){
+	db->emptyDead();
+	dw->emptyDead();
+	db->update();
+	dw->update();
+}
+
 
 /*hol up
 void GameInfo::paintEvent(QPaintEvent * event){
@@ -95,6 +102,10 @@ void dead_black::populatePieces(){
 
 }
 
+void dead_black::emptyDead(){
+	dead_pieces.clear();
+}
+
 QSize dead_black::minimumSizeHint() const{
 	return QSize(fontMetrics().width('M')*34,160);
 }
@@ -112,7 +123,7 @@ void dead_black::paintEvent(QPaintEvent * event){
 				rect.setTopLeft(QPoint((i-5)*fontMetrics().width('M') * 6, 50));
 			}
 			else {
-				rect.setTopLeft(QPoint((i - 5)*fontMetrics().width('M') * 6, 100));
+				rect.setTopLeft(QPoint((i - 12)*fontMetrics().width('M') * 6, 100));
 			}
 			rect.setWidth(fontMetrics().width('M') * 4);
 			rect.setHeight(fontMetrics().width('M') * 4);
@@ -136,6 +147,10 @@ void dead_white::populatePieces(){
 	pieces.insert('P', QIcon("D:\\VS projects\\ChessGP\\resources\\PawnW.svg"));
 }
 
+void dead_white::emptyDead(){
+	dead_pieces.clear();
+}
+
 QSize dead_white::minimumSizeHint() const{
 	return QSize(fontMetrics().width('M') * 34, 160);
 }
@@ -153,7 +168,7 @@ void dead_white::paintEvent(QPaintEvent * event){
 				rect.setTopLeft(QPoint((i-5)*fontMetrics().width('M') * 6, 50));
 			}
 			else {
-				rect.setTopLeft(QPoint((i - 5)*fontMetrics().width('M') * 6, 100));
+				rect.setTopLeft(QPoint((i - 12)*fontMetrics().width('M') * 6, 100));
 			}
 			rect.setWidth(fontMetrics().width('M') * 4);
 			rect.setHeight(fontMetrics().width('M') * 4);

@@ -43,8 +43,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	connect(ca, &ChessAlgorithm::gameOver, this, &MainWindow::isOver);
 
 	connect(dialog, &ConfigurationBox::rematch, this, &MainWindow::ReMatch);
+	//connect(dialog, &ConfigurationBox::rematch, gi, &GameInfo::reSet);
 
 	connect(dialog, &ConfigurationBox::OkClicked, this, &MainWindow::newGame);
+	//connect(dialog, &ConfigurationBox::OkClicked, gi, &GameInfo::reSet);
 
 	connect(dialog, &ConfigurationBox::ExitGame, this, &QMainWindow::close);
 	connect(ca, &ChessAlgorithm::closeApp, this, &QMainWindow::close);
@@ -104,12 +106,15 @@ void MainWindow::newGame(){
 		//ca->setPlayerNames(dialog.player1Name(), dialog.player2Name());
 		ca->newGame();
 		cv->setBoard(ca->board());
+		gi->reSet();
 		cv->update();
 	
 	//cv->board()->setFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 }
 
 void MainWindow::ReMatch(){
+	ca->setCurrentPlayer(ChessAlgorithm::Player::Player1);
+	gi->reSet();
 	cv->board()->setFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 	cv->update();
 }
@@ -118,12 +123,18 @@ void MainWindow::createActions(){
 	newAct = new QAction(tr("&New Game"), this);
 	newAct->setShortcut(QKeySequence::New);
 	connect(newAct, &QAction::triggered, this, &MainWindow::newGame);
+	//connect(newAct, &QAction::triggered, gi, &GameInfo::reSet);
 
+	reAct = new QAction(tr("&Re-Start"), this);
+	connect(reAct, &QAction::triggered, this, &MainWindow::ReMatch);
+	//connect(reAct, &QAction::triggered, gi, &GameInfo::reSet);
 }
 
 void MainWindow::creatMenu(){
 	fileMenu = menuBar()->addMenu(tr("&File"));
 	fileMenu->addAction(newAct);
+
+	fileMenu->addAction(reAct);
 }
 
 void MainWindow::isOver(ChessAlgorithm::Result result) {

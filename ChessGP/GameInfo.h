@@ -16,6 +16,7 @@ public:
 public slots:
 	void setPlayerNames(QString p1, QString p2);
 	void addDeadPiece(char q);
+	void reSet();
 protected:
 	
 	//void paintEvent(QPaintEvent* event) override;
@@ -32,6 +33,7 @@ class dead_black :public QWidget {//add the circuitry for adding dead players an
 public:
 	void addDeadPiece(char q);
 	void populatePieces();
+	void emptyDead();
 	QSize minimumSizeHint() const override;
 protected:
 	void paintEvent(QPaintEvent* event) override;
@@ -44,6 +46,7 @@ class dead_white :public QWidget {
 public:
 	void addDeadPiece(char q);
 	void populatePieces();
+	void emptyDead();
 	QSize minimumSizeHint() const override;
 protected:
 	void paintEvent(QPaintEvent* event) override;
