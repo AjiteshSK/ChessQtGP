@@ -17,9 +17,6 @@ public slots:
 	void setPlayerNames(QString p1, QString p2);
 	void addDeadPiece(char q);
 	void reSet();
-protected:
-	
-	//void paintEvent(QPaintEvent* event) override;
 private:
 	QLabel* player1Name;
 	QLabel* player2Name;
@@ -29,7 +26,7 @@ private:
 	dead_white* dw;
 };
 
-class dead_black :public QWidget {//add the circuitry for adding dead players and related signals/slots
+class dead_black :public QWidget {//adds the circuitry for adding dead players and related signals/slots
 public:
 	void addDeadPiece(char q);
 	void populatePieces();

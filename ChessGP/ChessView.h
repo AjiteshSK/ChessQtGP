@@ -44,8 +44,6 @@ public:
 		QColor m_color;
 	};
 
-	//class moveSuggestionHighlight{ public: moveSuggestionHighlight(int column, int rank, QColor color)}; use the row/column and piece info to generate a list of all possible positions, then draw a painterPath from the row/column to those positions
-
 	void addHighlight(Highlight *hl);
 	void removeHighlight(Highlight *hl);
 

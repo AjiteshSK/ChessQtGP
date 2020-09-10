@@ -49,14 +49,13 @@ private:
 	Result m_result;
 	Player m_currentPlayer;
 	QString player1, player2;
-	//bool isblackCheck = false, isWhiteCheck = false;
+	
 };
 
 class standardChess : public ChessAlgorithm {
 	Q_OBJECT
 public:
 	standardChess(QObject* parent = 0);
-	//void newGame();
 	bool move(int colFrom, int rankFrom, int colTo, int rankTo) override;
 	bool isPieceMovable(char piece, int colFrom, int rankFrom, int colTo, int rankTo);
 	std::vector<std::pair<int, int>> horizontal(char piece, int curr_colummn, int curr_rank);
