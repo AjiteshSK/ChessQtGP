@@ -5,8 +5,6 @@ ChessAlgorithm::ChessAlgorithm(QObject* parent) {
 	m_board = nullptr;
 	m_result = NoResult;
 	m_currentPlayer = Player1;
-
-	//connect(this, &ChessAlgorithm::gameOver, this, &ChessAlgorithm::endGame);
 }
 
 void ChessAlgorithm::setBoard(ChessBoard *board)
@@ -97,16 +95,11 @@ void ChessAlgorithm::newGame() {//What happens here is, we construct a new board
 		emit gameOver(ChessAlgorithm::Result::NoResult);
 		emit closeApp();
 	}
-
-
-	//setupBoard();//Sets up an empty board
-	//board()->setFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"); //Fills it with FEN-data
 }
 
 
 standardChess::standardChess(QObject * parent){}
 
-//MEAT
 bool standardChess::move(int colFrom, int rankFrom, int colTo, int rankTo)
 {
 	if (currentPlayer() == NoPlayer) {
@@ -135,10 +128,6 @@ bool standardChess::move(int colFrom, int rankFrom, int colTo, int rankTo)
 	}
 	board()->movePiece(colFrom, rankFrom, colTo, rankTo);
 	
-	//ISPIECEMOVABLE IS MY SALVATION!!! Costly though. The solution is, to check ALL the remaining same colored pieces and check isPieceMovable() for all the fields on the board. If all the pieces have nowhere to go, then it is checkmate, because it implies no way out of the check
-
-	
-	
 	if (isWhiteCheckMate()) {
 		setResult(Result::Player2Wins);
 	}
@@ -154,10 +143,7 @@ bool standardChess::move(int colFrom, int rankFrom, int colTo, int rankTo)
 	else {
 		setCurrentPlayer(currentPlayer() == Player1 ? Player2 : Player1);
 	}
-	//Win Condition
-	//if isCheck()
-	//is checkMate()
-	//checkMate() woul have to enumerate all possible board positions. A possible way out would be to check all the players for possible postions that cause !isCheck. If no such positions exist, then it's checkmate
+
 
 	return true;
 }
@@ -175,7 +161,7 @@ bool standardChess::isPieceMovable(char piece, int colFrom, int rankFrom, int co
 		all_possible_positions.insert(all_possible_positions.end(), vertical_l.begin(), vertical_l.end());
 		all_possible_positions.insert(all_possible_positions.end(), horizontal_l.begin(), horizontal_l.end());
 		for (auto i : all_possible_positions) {
-			if (std::pair<int, int>(colTo, rankTo) == i && !isCheck(piece, colFrom, rankFrom, colTo, rankTo)) {//&&!isCheck(piece, from, to);
+			if (std::pair<int, int>(colTo, rankTo) == i && !isCheck(piece, colFrom, rankFrom, colTo, rankTo)) {
 				return true;
 			}
 		}
@@ -668,7 +654,7 @@ std::vector<std::pair<int, int>> standardChess::kingPos(char piece, int curr_col
 						king_pos.push_back(std::pair<int, int>(i, j));
 						continue;
 					}
-					else {//redundant?
+					else {//redundtant(?)
 						continue;
 					}
 				}
@@ -787,172 +773,6 @@ std::vector<std::pair<int, int>> standardChess::pawnPos(char piece, int curr_col
 	return pawn_pos;
 }
 
-
-/*
-  First, a piece shouldn't be allowed to move to a place that causes a self-check. This has to be checked in all_possible_positions.
-  Second, after a piece DOES move, we have to check the isCheck() flag. This can be done in the Win Condition block
-  If isChecked, then only those moves are allowed that toggle the flag. This has to be checkd in all_possible_moves too
-  If no such moves exist, then its checkmate. Win Condition.
-*/
-
-/*
-bool standardChess::isCheck() {//Diff versions for colors?
-	for (int i = 1; i <= board()->columns(); i++) {
-		for (int j = 1; j <= board()->columns(); j++) {
-			char piece = board()->data(i, j);
-			switch (piece) {
-			case 'r': {
-				std::vector<std::pair<int, int>>all_possible_positions;
-				all_possible_positions.push_back(std::pair<int, int>(0, 0));
-				auto vertical_l = vertical(piece, i, j);
-				auto horizontal_l = horizontal(piece, i, j);
-				all_possible_positions.insert(all_possible_positions.end(), vertical_l.begin(), vertical_l.end());
-				all_possible_positions.insert(all_possible_positions.end(), horizontal_l.begin(), horizontal_l.end());
-				for (auto x : all_possible_positions) {
-					if (board()->data(x.first, x.second) == 'K') {
-						return true;
-					}
-				}
-			}
-			case 'R':{
-				std::vector<std::pair<int, int>>all_possible_positions;
-				all_possible_positions.push_back(std::pair<int, int>(0, 0));
-				auto vertical_l = vertical(piece, i, j);
-				auto horizontal_l = horizontal(piece, i, j);
-				all_possible_positions.insert(all_possible_positions.end(), vertical_l.begin(), vertical_l.end());
-				all_possible_positions.insert(all_possible_positions.end(), horizontal_l.begin(), horizontal_l.end());
-				for (auto x : all_possible_positions) {
-					if (board()->data(x.first, x.second) == 'k') {
-						return true;
-					}
-				}
-			}
-			case 'n': {
-				std::vector<std::pair<int, int>>all_possible_positions;
-				all_possible_positions.push_back(std::pair<int, int>(0, 0));
-				auto knight_l = knightPos(piece, i, j);
-				all_possible_positions.insert(all_possible_positions.end(), knight_l.begin(), knight_l.end());
-				for (auto x : all_possible_positions) {
-					if (board()->data(x.first, x.second) == 'K') {
-						return true;
-					}
-				}
-			}
-			case 'N': {
-				std::vector<std::pair<int, int>>all_possible_positions;
-				all_possible_positions.push_back(std::pair<int, int>(0, 0));
-				auto knight_l = knightPos(piece, i, j);
-				all_possible_positions.insert(all_possible_positions.end(), knight_l.begin(), knight_l.end());
-				for (auto x : all_possible_positions) {
-					if (board()->data(x.first, x.second) == 'k') {
-						return true;
-					}
-				}
-			}
-			case 'b':{
-				std::vector<std::pair<int, int>>all_possible_positions;
-				all_possible_positions.push_back(std::pair<int, int>(0, 0));
-				auto knight_l = diagonal(piece, i, j);
-				all_possible_positions.insert(all_possible_positions.end(), knight_l.begin(), knight_l.end());
-				for (auto x : all_possible_positions) {
-					if (board()->data(x.first, x.second) == 'K') {
-						return true;
-					}
-				}
-			}
-			case 'B': {
-				std::vector<std::pair<int, int>>all_possible_positions;
-				all_possible_positions.push_back(std::pair<int, int>(0, 0));
-				auto knight_l = diagonal(piece, i, j);
-				all_possible_positions.insert(all_possible_positions.end(), knight_l.begin(), knight_l.end());
-				for (auto x : all_possible_positions) {
-					if (board()->data(x.first, x.second) == 'k') {
-						return true;
-					}
-				}
-			}
-			case 'q': {
-				std::vector<std::pair<int, int>>all_possible_positions;
-				all_possible_positions.push_back(std::pair<int, int>(0, 0));
-				auto diagonal_l = diagonal(piece, i, j);
-				auto vertical_l = vertical(piece, i, j);
-				auto horizontal_l = horizontal(piece, i, j);
-				all_possible_positions.insert(all_possible_positions.end(), diagonal_l.begin(), diagonal_l.end());
-				all_possible_positions.insert(all_possible_positions.end(), vertical_l.begin(), vertical_l.end());
-				all_possible_positions.insert(all_possible_positions.end(), horizontal_l.begin(), horizontal_l.end());
-				for (auto x : all_possible_positions) {
-					if (board()->data(x.first, x.second) == 'k') {
-						return true;
-					}
-				}
-			}
-			case 'Q': {
-				std::vector<std::pair<int, int>>all_possible_positions;
-				all_possible_positions.push_back(std::pair<int, int>(0, 0));
-				auto diagonal_l = diagonal(piece, i, j);
-				auto vertical_l = vertical(piece, i, j);
-				auto horizontal_l = horizontal(piece, i, j);
-				all_possible_positions.insert(all_possible_positions.end(), diagonal_l.begin(), diagonal_l.end());
-				all_possible_positions.insert(all_possible_positions.end(), vertical_l.begin(), vertical_l.end());
-				all_possible_positions.insert(all_possible_positions.end(), horizontal_l.begin(), horizontal_l.end());
-				for (auto x : all_possible_positions) {
-					if (board()->data(x.first, x.second) == 'k') {
-						return true;
-					}
-				}
-			}
-			case 'k': {
-				std::vector<std::pair<int, int>>all_possible_positions;
-				all_possible_positions.push_back(std::pair<int, int>(0, 0));
-				auto knight_l = kingPos(piece, i, j);
-				all_possible_positions.insert(all_possible_positions.end(), knight_l.begin(), knight_l.end());
-				for (auto x : all_possible_positions) {
-					if (board()->data(x.first, x.second) == 'K') {
-						return true;
-					}
-				}
-			}
-			case 'K': {
-				std::vector<std::pair<int, int>>all_possible_positions;
-				all_possible_positions.push_back(std::pair<int, int>(0, 0));
-				auto knight_l = kingPos(piece, i, j);
-				all_possible_positions.insert(all_possible_positions.end(), knight_l.begin(), knight_l.end());
-				for (auto x : all_possible_positions) {
-					if (board()->data(x.first, x.second) == 'k') {
-						return true;
-					}
-				}
-			}
-			case 'p': {
-				std::vector<std::pair<int, int>>all_possible_positions;
-				all_possible_positions.push_back(std::pair<int, int>(0, 0));
-				auto knight_l = pawnPos(piece, i, j);
-				all_possible_positions.insert(all_possible_positions.end(), knight_l.begin(), knight_l.end());
-				for (auto x : all_possible_positions) {
-					if (board()->data(x.first, x.second) == 'K') {
-						return true;
-					}
-				}
-			}
-			case 'P': {
-				std::vector<std::pair<int, int>>all_possible_positions;
-				all_possible_positions.push_back(std::pair<int, int>(0, 0));
-				auto knight_l = pawnPos(piece, i, j);
-				all_possible_positions.insert(all_possible_positions.end(), knight_l.begin(), knight_l.end());
-				for (auto x : all_possible_positions) {
-					if (board()->data(x.first, x.second) == 'K') {
-						return true;
-					}
-				}
-			}
-			}
-		}
-	}
-	return false;
-}
-*/
-
-//Heavy-ass function call
 
 bool standardChess::isCheck(char source, int colFrom, int rankFrom, int colTo, int rankTo) {
 	char pseudo_piece = board()->data(colTo, rankTo);
@@ -1188,7 +1008,7 @@ bool standardChess::isCheck(char source, int colFrom, int rankFrom, int colTo, i
 	return false;
 }
 
-//Heavier-ass function call
+
 
 bool standardChess::isBlackCheckMate(){
 	//std::vector<std::pair<int, int>> possible_escape;
@@ -1285,7 +1105,7 @@ bool standardChess::isWhiteCheckMate() {
 				switch (piece) {
 				case'R': {
 					std::vector<std::pair<int, int>> all_possible_positions;
-					//all_possible_positions.push_back(std::pair<int, int>(0, 0));
+					
 					auto vertical_l = vertical(piece, i, j);
 					auto horizontal_l = horizontal(piece, i, j);
 					all_possible_positions.insert(all_possible_positions.end(), vertical_l.begin(), vertical_l.end());

@@ -2,7 +2,7 @@
 #include<QVBoxLayout>
 #include<QPainter>
 
-//DEfine two widgets for dead pieces, to get paintEvent to work
+//Define two widgets for dead pieces, to get paintEvent to work
 GameInfo::GameInfo() {
 
 	player1Name = new QLabel(tr("White King"));
@@ -26,8 +26,8 @@ GameInfo::GameInfo() {
 	black_layout->addWidget(player2Name, 0, Qt::AlignCenter);
 	black_layout->addWidget(db, 1, Qt::AlignCenter);
 
-	layout->addLayout(white_layout, 1);
 	layout->addLayout(black_layout, 1);
+	layout->addLayout(white_layout, 1);
 
 	setLayout(layout);
 	hasMouseTracking();
@@ -71,21 +71,6 @@ void GameInfo::reSet(){
 	dw->update();
 }
 
-
-/*hol up
-void GameInfo::paintEvent(QPaintEvent * event){
-	QPainter* painter = new QPainter(this);
-	QRect rect;
-	rect.setTopLeft(QPoint(10, 101));
-	rect.setWidth(fontMetrics().width('M') * 2);
-	rect.setHeight(fontMetrics().width('M') * 2);
-	for (auto x : dead_pieces) {
-		if (x != ' ') {
-			pieces[x].paint(painter, rect, Qt::AlignCenter);
-		}
-	}
-}
-*/
 
 void dead_black::addDeadPiece(char q){
 	dead_pieces.push_back(q);

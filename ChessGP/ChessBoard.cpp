@@ -28,7 +28,7 @@ char ChessBoard::data(int column, int rank) const{
 }
 
 void ChessBoard::setData(int column, int rank, char Value){
-	if (setDataInternal(column, rank, Value)) {//How sagacious. Making a bool out of this and wrapping it up in an if-statement allows for easier implementation of the move-algorithms for individual pieces since that will entail returning FALSE for illegal moves
+	if (setDataInternal(column, rank, Value)) {
 		emit dataChanged(column, rank);
 	}
 }
@@ -38,7 +38,7 @@ void ChessBoard::movePiece(int fromColumn, int fromRank, int toColumn, int toRan
 	setData(fromColumn, fromRank, ' ');//The vacated box, also emits dataChanged signal
 }
 
-void ChessBoard::pseduo_movePiece(int fromColumn, int fromRank, int toColumn, int toRank){
+void ChessBoard::pseduo_movePiece(int fromColumn, int fromRank, int toColumn, int toRank){//Used to check for possible checks/check-mates
 	
 		char restore = data(toColumn, toRank);
 		setData(toColumn, toRank, data(fromColumn, fromRank));//The occupied box

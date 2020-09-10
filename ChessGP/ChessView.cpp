@@ -5,14 +5,14 @@ void ChessView::setBoard(ChessBoard * board){ //Not to be confused with ChessAlg
 	if (m_board == board) {
 		return;
 	}
-	//Notify signals and slots and whatever
+	
 	m_board = board;
 
 	if (board) {
 		connect(board, SIGNAL(dataChanged(int, int)),
-			this, SLOT(update())); //So, when we encounter a dataChanged() SIGNAL, we call update() which calls paintEvent(), which entails going through the m_board->m_pieces data structure and re-drawing the board with the altered sequence of characters
+			this, SLOT(update())); //When we encounter a dataChanged() SIGNAL, we call update() which calls paintEvent(), which entails going through the m_board->m_pieces data structure and re-drawing the board with the altered sequence of characters
 		connect(board, SIGNAL(boardReset()),
-			this, SLOT(update()));//Does the same, but when the whole game restarts
+			this, SLOT(update()));//Does the same, when game restarts
 	}
 	updateGeometry();
 }
@@ -27,7 +27,6 @@ QSize ChessView::sizeHint() const
 		return QSize(100, 100); //Default size
 	}
 	QSize boardSize = QSize(fieldSize().width()* m_board->columns() + 1, fieldSize().height() * m_board->ranks() + 1); //width of one box * number of columns, height of one box * number of ranks
-	// 'M' is the widest letter
 	int rankSize = fontMetrics().width('M') + 4;
 	int columnSize = fontMetrics().height() + 4;
 	return boardSize + QSize(rankSize, columnSize);
@@ -39,7 +38,7 @@ void ChessView::paintEvent(QPaintEvent * event){
 	}
 
 	QPainter painter(this);
-	//drawRank(), drawColumn(), drawField()
+
 
 	for (int r = m_board->ranks(); r > 0; --r) {
 		painter.save();
@@ -177,7 +176,7 @@ void ChessView::drawField(QPainter *painter, int column, int rank)
 
 void ChessView::drawPiece(QPainter * painter, int column, int rank){
 	QRect r = fieldRect(column, rank);
-	char value = m_board->data(column, rank);//Returns the character at a certain index position. The for-loops in the paintEvent() ensure that all the inde positions are accounted for
+	char value = m_board->data(column, rank);//Returns the character at a certain index position. The for-loops in the paintEvent() ensure that all the index positions are accounted for
 	if (value != ' ') {
 		QIcon icon = piece(value);
 		if (!icon.isNull()) {

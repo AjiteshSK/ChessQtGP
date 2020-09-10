@@ -43,10 +43,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	connect(ca, &ChessAlgorithm::gameOver, this, &MainWindow::isOver);
 
 	connect(dialog, &ConfigurationBox::rematch, this, &MainWindow::ReMatch);
-	//connect(dialog, &ConfigurationBox::rematch, gi, &GameInfo::reSet);
-
+	
 	connect(dialog, &ConfigurationBox::OkClicked, this, &MainWindow::newGame);
-	//connect(dialog, &ConfigurationBox::OkClicked, gi, &GameInfo::reSet);
 
 	connect(dialog, &ConfigurationBox::ExitGame, this, &QMainWindow::close);
 	connect(ca, &ChessAlgorithm::closeApp, this, &QMainWindow::close);
@@ -61,20 +59,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 }
 
 void MainWindow::viewClicked(const QPoint &field) { //slot that is connected to clicked signal emitted from withint the mouseReleaseEvent. The argument field contains the column and rank info derived from the mouseRelease event
-	
-	/*
-	if (m_clickPoint.isNull()) {//First mouseReleaseEvent(click), where the piece to be moved is selected
-		m_clickPoint = field;
-	}
-	else {//Second mouseReleaseEvent, when the piece is already selected and it's position is stored in the m_clickPoint data member
-		if (field != m_clickPoint) {//Check to see if the second click isn't on the same box
-			cv->board()->movePiece(m_clickPoint.x(), m_clickPoint.y(), field.x(), field.y());//m_clickPoint(where the Piece already is (from the first click's execution of the above if-statement). Field is curren click's data.
-		}
-		m_clickPoint = QPoint();//Reset m_clickPoint
-	}	
-
-	LET'S NOT DELETE THIS AND LET IT REMAIN AS A REMNINDER OF YOUR IMBECILITY 
-	*/
 
 	if (field.y() == 0) {
 		return;
@@ -82,7 +66,7 @@ void MainWindow::viewClicked(const QPoint &field) { //slot that is connected to 
 
 	if (m_clickPoint.isNull()) {//Checks is this is the first click, i.e, we haven't selected a piece already
 		if (cv->board()->data(field.x(), field.y()) != ' ') {
-			m_clickPoint = field;//
+			m_clickPoint = field;
 			m_selectedField = new ChessView::fieldHighlight(field.x(), field.y(), QColor(255, 0, 0, 50));
 			cv->addHighlight(m_selectedField);
 		}
@@ -90,7 +74,7 @@ void MainWindow::viewClicked(const QPoint &field) { //slot that is connected to 
 	else {//This is the second-click, i.e., we've already clicked on a piece before (stored its position in m_clickPoint
 		if (field != m_clickPoint) {
 			ca->move(m_clickPoint, field);
-			//cv->board()->movePiece(m_clickPoint.x(), m_clickPoint.y(), field.x(), field.y());//The piece was stored in m_clickPoint (first click location), now we move it to field(second click location)
+			
 		};
 
 		m_clickPoint = QPoint();
@@ -103,13 +87,11 @@ void MainWindow::viewClicked(const QPoint &field) { //slot that is connected to 
 void MainWindow::newGame(){
 
 	
-		//ca->setPlayerNames(dialog.player1Name(), dialog.player2Name());
+		
 		ca->newGame();
 		cv->setBoard(ca->board());
 		gi->reSet();
 		cv->update();
-	
-	//cv->board()->setFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 }
 
 void MainWindow::ReMatch(){
@@ -123,11 +105,9 @@ void MainWindow::createActions(){
 	newAct = new QAction(tr("&New Game"), this);
 	newAct->setShortcut(QKeySequence::New);
 	connect(newAct, &QAction::triggered, this, &MainWindow::newGame);
-	//connect(newAct, &QAction::triggered, gi, &GameInfo::reSet);
 
 	reAct = new QAction(tr("&Re-Start"), this);
 	connect(reAct, &QAction::triggered, this, &MainWindow::ReMatch);
-	//connect(reAct, &QAction::triggered, gi, &GameInfo::reSet);
 }
 
 void MainWindow::creatMenu(){
